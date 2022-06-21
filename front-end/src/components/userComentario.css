@@ -1,0 +1,50 @@
+.container-main{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  display: flex;
+  align-items: center;
+  padding-block: 1rem;
+}
+
+.name-user{
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+.text-field{
+  padding: 2rem;
+  outline: none;
+  border: none;
+  border-radius: 0 2rem;
+  font-size: 1.8rem;
+  resize: vertical;
+}
+
+button{
+  padding-block: 2rem;
+  padding-inline: 2rem;
+  margin-top: 1rem;
+  border: none;
+  outline: none;
+  font-size: 1.6rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+
+}
+
+button:hover{
+  background-color: rgb(7, 131, 207);
+  color: white;
+}
+
+button:disabled:hover{
+  cursor: not-allowed;
+  background-color: rgba(239, 239, 239, 0.312);
+  color: rgba(0, 0, 0, 0.238);
+}
