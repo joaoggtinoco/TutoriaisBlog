@@ -1,66 +1,68 @@
-import React from 'react';
-import UserIcon from './iconeUser/UserIcon';
+import { gql, useMutation } from '@apollo/client'
+import React from 'react'
+import UserIcon from './iconeUser/UserIcon'
 import Loading from './loading/Loading'
 import './userComentario.css'
 
-function UserComentario (){
-  const [comment, setComment] = React.useState("");
-  const [submitComment, setSubmitComment] = React.useState("");
-  
-  const [isSendingPost, setIsSendingPost] = React.useState(false);
+const CREATE_USER_POST = gql`
+  mutation CreateUserPost($description: String!) {
+    createUserPost(data: { description: $description }) {
+      id
+    }
+  }
+`
 
-  function handleSubmitPost(event){
-    event.preventDefault();
+function UserComentario() {
+  const [description, setDescription] = React.useState('')
+  const [createPost, {loading}] = useMutation(CREATE_USER_POST);
 
-    setIsSendingPost(true);
-    setSubmitComment(comment);
+  // So pra ver o texto quando clicar no botao enviar
+  const [submitComment, setSubmitComment] = React.useState('')
+
+  function handleSubmitPost(event) {
+    event.preventDefault()
+    setSubmitComment(description)
 
     // Fazer req para api enviando o dado para o banco
+    createPost({
+      variables:{
+        // Essa variavel de estado tem que ter o mesmo nome na req da mutation
+        description
+      }
+    })
 
-    setIsSendingPost(false)
+    console.log(`Toke: ${process.env.REACT_APP_API_ACCESS_TOKEN}`)
+    console.log(`Base URL: ${process.env.REACT_APP_URI}`)
   }
   return (
-    <div 
-    className='container-main'
-    >
-      <div 
-      className='container'
-      >
-        <UserIcon/>
-        <h2 
-        className='name-user'
-        >
-          Nome do usuario
-        </h2>
+    <div className="container-main">
+      <div className="container">
+        <UserIcon />
+        <h2 className="name-user">Nome do usuario</h2>
       </div>
-      <form 
-        onSubmit={handleSubmitPost}
-      >
-        <textarea 
-        className='text-field' 
-        id="" 
-        cols="50" 
-        rows="10"
-        onChange={(event) => setComment(event.target.value)}
+      <form onSubmit={handleSubmitPost}>
+        <textarea
+          className="text-field"
+          id=""
+          cols="50"
+          rows="10"
+          onChange={event => setDescription(event.target.value)}
         ></textarea>
-        
+
         <footer>
           <button
-            type='submit'
-            disabled = {comment.length === 0 || isSendingPost}
+            type="submit"
+            disabled={description.length === 0 || loading}
           >
-            {isSendingPost ? <Loading/> : 'Enviar Postagem'}
+            {loading ? <Loading /> : 'Enviar Postagem'}
           </button>
         </footer>
-
       </form>
       <div>
-        <p>
-          {comment.length === 0 ? '' : submitComment}
-        </p>
+        <p>{description.length === 0 ? '' : submitComment}</p>
       </div>
     </div>
-  );
+  )
 }
 
-export default UserComentario;
+export default UserComentario

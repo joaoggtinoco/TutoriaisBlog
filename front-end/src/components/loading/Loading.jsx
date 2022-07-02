@@ -1,7 +1,6 @@
 import React from 'react'
+import { IconLoading } from './IconLoading'
 
 export default function loading() {
-  return (
-    <p>Loading...</p>
-  )
+  return <IconLoading size={35} />
 }
