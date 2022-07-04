@@ -2,6 +2,7 @@
 using TutoriaisBlogApi.Models;
 using Microsoft.EntityFrameworkCore;
 
+//Esse classe tem como objetivo fazer as alterações no banco.
 namespace TutoriaisBlogApi.Services
 {
   public class UsuarioService : IUsuarioService

@@ -5,37 +5,45 @@ using TutoriaisBlogApi.Services;
 
 namespace TutoriaisBlogApi
 {
-    public class Startup
+  public class Startup
+  {
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
-        {
-            Configuration = configuration;
-        }
+      Configuration = configuration;
+    }
 
-        public IConfiguration Configuration { get; }
+    public IConfiguration Configuration { get; }
 
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Add services to the container.
-            services.AddControllers();
-            // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-            services.AddEndpointsApiExplorer();
-            services.AddSwaggerGen();
-            //Config de conexão com banco SqlServer.
-            services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+    public void ConfigureServices(IServiceCollection services)
+    {
+      // Add services to the container.
+      services.AddControllers();
+      // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+      services.AddEndpointsApiExplorer();
+      services.AddSwaggerGen();
 
-            services.AddScoped<IUsuarioService, UsuarioService>();
-        }
+      //Config de conexão com banco SqlServer.
+      services.AddDbContext<AppDbContext>(options =>
+          options.UseLazyLoadingProxies().UseSqlServer(Configuration.GetConnectionString("SqlServerConnection")));
 
-        public void Configure(WebApplication app, IWebHostEnvironment environment)
-        {
-            // Configure the HTTP request pipeline.
-            if (app.Environment.IsDevelopment())
-            {
-                app.UseSwagger();
-                app.UseSwaggerUI();
-            }
+      //Config de conexão com banco MySQL.
+      //services.AddDbContext<AppDbContext>(options =>
+      //options.UseMySQL(Configuration.GetConnectionString("MySqlConnection")));
+
+      services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+      services.AddScoped<IUsuarioService, UsuarioService>();
+      services.AddScoped<IPostagemService, PostagemService>();
+    }
+
+    public void Configure(WebApplication app, IWebHostEnvironment environment)
+    {
+      // Configure the HTTP request pipeline.
+      if (app.Environment.IsDevelopment())
+      {
+        app.UseSwagger();
+        app.UseSwaggerUI();
+      }
 
       app.UseCors(options =>
       {
@@ -44,10 +52,10 @@ namespace TutoriaisBlogApi
         options.AllowAnyHeader();
       });
 
-            app.UseHttpsRedirection();
-            app.UseAuthorization();
-            app.MapControllers();
+      app.UseHttpsRedirection();
+      app.UseAuthorization();
+      app.MapControllers();
 
-        }
     }
+  }
 }

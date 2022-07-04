@@ -2,19 +2,25 @@
 using TutoriaisBlogApi.Services;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TutoriaisBlogApi.Context.Dtos;
+using AutoMapper;
+using TutoriaisBlogApi.Context.Dtos.Usuario;
 
+
+//Essa classe tem como objetivo gerenciar as respostas da API
 namespace TutoriaisBlogApi.Controllers
 {
-  [Route("api/[controller]")]
   [ApiController]
+  [Route("api/[controller]")]
   //[Produces("application/json")]
   public class UsuarioController : ControllerBase
   {
     private IUsuarioService _usuarioService;
-
-    public UsuarioController(IUsuarioService usuarioService)
+    private IMapper _mapper;
+    public UsuarioController(IUsuarioService usuarioService, IMapper mapper)
     {
       _usuarioService = usuarioService;
+      _mapper = mapper;
     }
 
     //Obtém todos os usuários.
@@ -26,8 +32,14 @@ namespace TutoriaisBlogApi.Controllers
     {
       try
       {
-        var usuarios = await _usuarioService.GetUsuarios();
-        return Ok(usuarios);
+        IEnumerable<Usuario> usuarios = await _usuarioService.GetUsuarios();
+        List<ReadUsuarioDto> usuariosDto = new List<ReadUsuarioDto>();
+        foreach (Usuario usuario in usuarios)
+        {
+          ReadUsuarioDto usuarioDto = _mapper.Map<ReadUsuarioDto>(usuario);
+          usuariosDto.Add(usuarioDto);
+        }
+          return Ok(usuarios);
       }
       catch
       {
@@ -40,9 +52,14 @@ namespace TutoriaisBlogApi.Controllers
     {
       try
       {
-        var usuariosByName = await _usuarioService.GetUsuarioByName(nome);
+        //TODO: Corrigir implementação, pos o GetUsuarioByName retorna uma lista de usuarios com o param nome.
+        ReadUsuarioDto usuariosByNameDto;
+        IEnumerable<Usuario> usuariosByName = await _usuarioService.GetUsuarioByName(nome);
         if (usuariosByName.Count() == 0)
           return NotFound($"Não foi encontrado nenhum usuário com o critério: {nome}.");
+        else
+          usuariosByNameDto = _mapper.Map<ReadUsuarioDto>(usuariosByName);
+
         return Ok(usuariosByName);
       }
       catch
@@ -56,10 +73,14 @@ namespace TutoriaisBlogApi.Controllers
     {
       try
       {
+        ReadUsuarioDto usuarioPorIdDto;
         var usuarioPorId = await _usuarioService.GetUsuario(id);
         if (usuarioPorId == null)
           return NotFound($"Não foi encontrado nenhum usuário com o ID: {id}.");
-        return Ok(usuarioPorId);
+        else
+          usuarioPorIdDto = _mapper.Map<ReadUsuarioDto>(usuarioPorId);
+
+        return Ok(usuarioPorIdDto);
       }
       catch
       {
@@ -68,8 +89,9 @@ namespace TutoriaisBlogApi.Controllers
     }
 
     [HttpPost]
-    public async Task<ActionResult> CreateUsuario(Usuario usuario)
+    public async Task<ActionResult> CreateUsuario(CreateUsuarioDto usuarioDto) //[FromBody]
     {
+      Usuario usuario = _mapper.Map<Usuario>(usuarioDto);
       try
       {
         await _usuarioService.CreateUsuario(usuario);
@@ -82,12 +104,14 @@ namespace TutoriaisBlogApi.Controllers
     }
 
     [HttpPut("{id:int}")]
-    public async Task<ActionResult> UpdateUsuario(int id, [FromBody] Usuario usuario)
+    public async Task<ActionResult> UpdateUsuario(int id, [FromBody] UpdateUsuarioDto usuarioDto)
     {
       try
       {
-        if (usuario.Id == id)
+        Usuario? usuario = await _usuarioService.GetUsuario(id);
+        if (usuario != null)
         {
+          _mapper.Map(usuarioDto, usuario);
           await _usuarioService.UpdateUsuario(usuario);
           //return NoContent();
           return Ok($"Usuário com id: {id} foi atualizado com sucesso.");
@@ -103,6 +127,7 @@ namespace TutoriaisBlogApi.Controllers
       }
     }
 
+    //TODO fazer mapeamento com Dto
     [HttpDelete("{id:int}")]
     public async Task<ActionResult> DeleteUsuario(int id)
     {
