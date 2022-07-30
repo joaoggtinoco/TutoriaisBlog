@@ -1,8 +1,10 @@
 import { gql, useMutation } from '@apollo/client'
 import React from 'react'
+import { useEffect } from 'react'
 import UserIcon from './iconeUser/UserIcon'
 import Loading from './loading/Loading'
 import './userComentario.css'
+import axios from "axios"
 
 const CREATE_USER_POST = gql`
   mutation CreateUserPost($description: String!) {
@@ -13,7 +15,27 @@ const CREATE_USER_POST = gql`
 `
 
 function UserComentario() {
+
   const [description, setDescription] = React.useState('')
+  
+  /*
+  useEffect(() => {
+    axios.post("https://localhost:7276/api/Postagem"), {
+      conteudo: description,
+      usuarioId: 8 
+    }
+      .then(() => {
+        alert("Post enviado")
+      })
+      .catch(() =>{
+        alert("Deu erro")
+      })
+  });
+*/
+
+
+
+
   const [createPost, {loading}] = useMutation(CREATE_USER_POST);
 
   // So pra ver o texto quando clicar no botao enviar
@@ -22,6 +44,17 @@ function UserComentario() {
   function handleSubmitPost(event) {
     event.preventDefault()
     setSubmitComment(description)
+    axios.post("https://localhost:7276/api/Postagem", {
+      conteudo: description,
+      usuarioId: 8 
+    })
+      .then(() => {
+        alert("Post enviado")
+      })
+      .catch(() =>{
+        alert("Deu erro")
+      })
+  
 
     // Fazer req para api enviando o dado para o banco
     createPost({
