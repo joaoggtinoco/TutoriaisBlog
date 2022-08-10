@@ -2,7 +2,7 @@ import React from 'react'
 import UserIcon from './iconeUser/UserIcon'
 import Loading from './loading/Loading'
 import './userComentario.css'
-import axios from 'axios'
+import { api } from '../lib/api'
 
 function UserComentario() {
   const [description, setDescription] = React.useState('')
@@ -15,9 +15,10 @@ function UserComentario() {
     event.preventDefault()
     setLoading(true)
     setSubmitComment(description)
-    axios
-      .post('https://localhost:7276/api/Postagem', {
+    api
+      .post('/api/Postagem', {
         conteudo: description,
+        // Pegar o tamanho da lista do banco de dados + 1 ou a data atual do momento sem formatação
         usuarioId: 8
       })
       .then(() => {
@@ -28,7 +29,6 @@ function UserComentario() {
         alert('Deu erro')
         setLoading(false)
       })
-
   }
   return (
     <div className="container-main">
