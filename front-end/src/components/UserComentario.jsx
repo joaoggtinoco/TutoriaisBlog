@@ -1,38 +1,34 @@
-import { gql, useMutation } from '@apollo/client'
 import React from 'react'
 import UserIcon from './iconeUser/UserIcon'
 import Loading from './loading/Loading'
 import './userComentario.css'
-
-const CREATE_USER_POST = gql`
-  mutation CreateUserPost($description: String!) {
-    createUserPost(data: { description: $description }) {
-      id
-    }
-  }
-`
+import { api } from '../lib/api'
 
 function UserComentario() {
   const [description, setDescription] = React.useState('')
-  const [createPost, {loading}] = useMutation(CREATE_USER_POST);
+  const [loading, setLoading] = React.useState(false)
 
   // So pra ver o texto quando clicar no botao enviar
   const [submitComment, setSubmitComment] = React.useState('')
 
   function handleSubmitPost(event) {
     event.preventDefault()
+    setLoading(true)
     setSubmitComment(description)
-
-    // Fazer req para api enviando o dado para o banco
-    createPost({
-      variables:{
-        // Essa variavel de estado tem que ter o mesmo nome na req da mutation
-        description
-      }
-    })
-
-    console.log(`Toke: ${process.env.REACT_APP_API_ACCESS_TOKEN}`)
-    console.log(`Base URL: ${process.env.REACT_APP_URI}`)
+    api
+      .post('/api/Postagem', {
+        conteudo: description,
+        // Pegar o tamanho da lista do banco de dados + 1 ou a data atual do momento sem formatação
+        usuarioId: 8
+      })
+      .then(() => {
+        alert('Post enviado')
+        setLoading(false)
+      })
+      .catch(() => {
+        alert('Deu erro')
+        setLoading(false)
+      })
   }
   return (
     <div className="container-main">
@@ -50,10 +46,7 @@ function UserComentario() {
         ></textarea>
 
         <footer>
-          <button
-            type="submit"
-            disabled={description.length === 0 || loading}
-          >
+          <button type="submit" disabled={description.length === 0 || loading}>
             {loading ? <Loading /> : 'Enviar Postagem'}
           </button>
         </footer>
