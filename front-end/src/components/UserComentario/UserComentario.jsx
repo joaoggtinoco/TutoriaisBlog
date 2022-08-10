@@ -7,23 +7,28 @@ function UserComentario() {
   const [description, setDescription] = React.useState('')
   const [loading, setLoading] = React.useState(false)
 
-  function handleSubmitPost(event) {
+  async function handleSubmitPost(event) {
     event.preventDefault()
+
+    console.log({
+      description
+    })
     setLoading(true)
-    api
-      .post('/api/Postagem', {
+    try {
+      const response = await api.post('/api/Postagem', {
         conteudo: description,
         // Pegar o tamanho da lista do banco de dados + 1 ou a data atual do momento sem formatação
         usuarioId: 8
       })
-      .then(() => {
-        alert('Post enviado')
-        setLoading(false)
-      })
-      .catch(() => {
-        alert('Deu erro')
-        setLoading(false)
-      })
+
+      console.log('Enviado: ', response.data)
+      setLoading(false)
+      return
+    } catch (e) {
+      console.log('Deu erro: ', e)
+      setLoading(false)
+      return
+    }
   }
   return (
     <div className="flex flex-col justify-center items-center">
