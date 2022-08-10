@@ -1,10 +1,8 @@
-import './App.css';
-import UserComentario from './components/UserComentario';
-
+import Blog from './pages/Blog'
 function App() {
   return (
-    <div className="App">
-      <UserComentario/>
+    <div>
+      <Blog/>
     </div>
   );
 }

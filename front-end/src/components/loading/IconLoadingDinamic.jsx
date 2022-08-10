@@ -1,7 +1,7 @@
 import { Spinner } from 'phosphor-react'
 
 
-export function IconLoading({size}) {
+export function IconLoadingDinamic({size}) {
   return (
     <Spinner color="#000" weight="duotone" size={size}>
       <animate
