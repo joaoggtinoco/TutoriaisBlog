@@ -1,10 +1,13 @@
-import Blog from './pages/Blog'
+import { BrowserRouter } from 'react-router-dom'
+import { Router } from './Router'
 function App() {
   return (
-    <div>
-      <Blog/>
-    </div>
-  );
+    <>
+      <BrowserRouter>
+        <Router/>
+      </BrowserRouter>
+    </>
+  )
 }
 
-export default App;
+export default App
