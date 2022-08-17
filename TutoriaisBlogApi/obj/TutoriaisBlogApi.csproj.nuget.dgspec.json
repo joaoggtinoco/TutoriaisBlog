@@ -1,25 +1,27 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Pedro\\Documents\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\TutoriaisBlogApi.csproj": {}
+    "C:\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\TutoriaisBlogApi.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Pedro\\Documents\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\TutoriaisBlogApi.csproj": {
+    "C:\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\TutoriaisBlogApi.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Pedro\\Documents\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\TutoriaisBlogApi.csproj",
+        "projectUniqueName": "C:\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\TutoriaisBlogApi.csproj",
         "projectName": "TutoriaisBlogApi",
-        "projectPath": "C:\\Users\\Pedro\\Documents\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\TutoriaisBlogApi.csproj",
-        "packagesPath": "C:\\Users\\Pedro\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Pedro\\Documents\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\obj\\",
+        "projectPath": "C:\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\TutoriaisBlogApi.csproj",
+        "packagesPath": "C:\\Users\\joaot\\.nuget\\packages\\",
+        "outputPath": "C:\\GitHub\\TutoriaisBlog\\TutoriaisBlogApi\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Pedro\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\joaot\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -83,7 +85,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\6.0.300\\RuntimeIdentifierGraph.json"
         }
       }
     }
