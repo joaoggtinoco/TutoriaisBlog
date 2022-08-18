@@ -18,7 +18,7 @@ function UserComentario() {
       const response = await api.post('/api/Postagem', {
         conteudo: description,
         // Pegar o tamanho da lista do banco de dados + 1 ou a data atual do momento sem formatação
-        usuarioId: 8
+        usuarioId: 3
       })
 
       console.log('Enviado: ', response.data)
