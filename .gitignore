@@ -9,6 +9,7 @@
 
 #Config TutoriaislBlog
 */appsettings.json
+*/.config
 
 # User-specific files
 *.rsuser
